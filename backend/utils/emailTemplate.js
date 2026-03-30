@@ -1,24 +1,23 @@
-const resetPasswordTemplate = (resetUrl, userName = 'Student') => {
+const verifyOtpTemplate = (otp, userName = 'Student', purpose = 'Account Verification') => {
   return `
     <!DOCTYPE html>
     <html lang="en">
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Password Reset</title>
+      <title>${purpose}</title>
       <style>
         body { margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f3f4f6; color: #374151; }
         .container { max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-        .header { background: linear-gradient(135deg, #611bf8, #3c08aa); padding: 40px 20px; text-align: center; }
+        .header { background: linear-gradient(135deg, #0ea5e9, #0284c7); padding: 40px 20px; text-align: center; border-bottom: 4px solid #0369a1; }
         .header h1 { color: #ffffff; margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
-        .content { padding: 40px 30px; }
+        .content { padding: 40px 30px; text-align: center; }
         .content p { font-size: 16px; line-height: 1.6; margin-bottom: 24px; color: #4b5563; }
-        .button-wrapper { text-align: center; margin: 35px 0; }
-        .button { display: inline-block; background-color: #f59e0b; color: #ffffff !important; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 6px rgba(245, 158, 11, 0.3); }
+        .otp-box { background-color: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 24px; margin: 30px 0; }
+        .otp { font-size: 42px; font-weight: 900; color: #0ea5e9; letter-spacing: 8px; margin: 0; font-family: monospace; }
         .footer { background-color: #f8fafc; padding: 24px 30px; text-align: center; border-top: 1px solid #e2e8f0; }
         .footer p { color: #94a3b8; font-size: 13px; margin: 0; }
         .disclaimer { font-size: 13px; color: #94a3b8; text-align: center; margin-top: 20px; }
-        .link { word-break: break-all; color: #611bf8; font-size: 14px; }
       </style>
     </head>
     <body>
@@ -28,17 +27,13 @@ const resetPasswordTemplate = (resetUrl, userName = 'Student') => {
         </div>
         <div class="content">
           <p>Hi <strong>${userName}</strong>,</p>
-          <p>We received a request to reset your password for your FindIt@Campus account. If you didn't make this request, you can safely ignore this email.</p>
-          <p>To choose a new password and regain access to your account, please click the button below:</p>
+          <p>We received a request for ${purpose.toLowerCase()} for your FindIt@Campus account. Please use the following 6-digit verification code:</p>
           
-          <div class="button-wrapper">
-            <a href="${resetUrl}" class="button">Reset My Password</a>
+          <div class="otp-box">
+             <p class="otp">${otp}</p>
           </div>
           
-          <p>Or copy and paste this link into your browser:</p>
-          <p class="link">${resetUrl}</p>
-          
-          <p class="disclaimer">This link will expire in 10 minutes for your security.</p>
+          <p class="disclaimer">This secure code will expire in 10 minutes. Do not share it with anyone.</p>
         </div>
         <div class="footer">
           <p>&copy; ${new Date().getFullYear()} FindIt@Campus. All rights reserved.</p>
@@ -49,4 +44,4 @@ const resetPasswordTemplate = (resetUrl, userName = 'Student') => {
   `;
 };
 
-module.exports = { resetPasswordTemplate };
+module.exports = { verifyOtpTemplate };
