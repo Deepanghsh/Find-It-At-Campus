@@ -15,7 +15,6 @@ import ReportLostPage from './pages/ReportLostPage';
 import ReportFoundPage from './pages/ReportFoundPage';
 import CheckStatusPage from './pages/CheckStatusPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
-import ResetPasswordPage from './pages/ResetPasswordPage';
 import SettingsPage from './pages/SettingsPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import NotificationsPage from './pages/NotificationsPage';
@@ -35,7 +34,6 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-              <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
               
               <Route path="/lost" element={<PrivateRoute><ReportLostPage /></PrivateRoute>} />
               <Route path="/found" element={<PrivateRoute><ReportFoundPage /></PrivateRoute>} />
