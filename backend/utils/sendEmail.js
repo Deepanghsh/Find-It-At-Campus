@@ -1,45 +1,60 @@
 const nodemailer = require('nodemailer');
-const { resetPasswordTemplate } = require('./emailTemplate');
+const { verifyOtpTemplate } = require('./emailTemplate');
 
 const sendEmail = async (options) => {
-  // If no SMTP settings are provided, use Ethereal (fake SMTP service) for testing
   let transporter;
-  
-  if (process.env.SMTP_HOST && process.env.SMTP_USER) {
+  let usingEthereal = false;
+
+  // Always print OTP to terminal for development convenience
+  console.log(`\n==========================================`);
+  console.log(`🔑 OTP for ${options.email}: ${options.otp}`);
+  console.log(`==========================================\n`);
+
+  if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS &&
+      process.env.SMTP_USER !== 'your_gmail@gmail.com') {
+    // Real SMTP (Gmail or other)
     transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
+      port: parseInt(process.env.SMTP_PORT) || 587,
+      secure: false,           // Use STARTTLS (not SSL)
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
       },
+      tls: {
+        rejectUnauthorized: false, // Avoid self-signed cert issues
+      },
     });
   } else {
-    // Generate test SMTP service account from ethereal.email
+    // Fall back to Ethereal fake SMTP for development
+    usingEthereal = true;
+    console.log(`⚠️  SMTP not configured — using Ethereal (fake SMTP). Emails won't arrive in real inboxes.`);
+    console.log(`   → Edit SMTP_USER and SMTP_PASS in backend/.env with your Gmail App Password.\n`);
     const testAccount = await nodemailer.createTestAccount();
     transporter = nodemailer.createTransport({
       host: 'smtp.ethereal.email',
       port: 587,
-      secure: false, // true for 465, false for other ports
+      secure: false,
       auth: {
-        user: testAccount.user, // generated ethereal user
-        pass: testAccount.pass, // generated ethereal password
+        user: testAccount.user,
+        pass: testAccount.pass,
       },
     });
-    console.log(`⚠️  Using Ethereal Fake SMTP. Configure SMTP_ settings in .env for production.`);
   }
 
   const message = {
-    from: `${process.env.FROM_NAME || 'FindIt@Campus'} <${process.env.FROM_EMAIL || 'noreply@finditcampus.edu'}>`,
+    from: `${process.env.FROM_NAME || 'FindIt@Campus'} <${process.env.FROM_EMAIL || process.env.SMTP_USER || 'noreply@finditcampus.edu'}>`,
     to: options.email,
     subject: options.subject,
-    html: resetPasswordTemplate(options.resetUrl, options.userName),
+    html: verifyOtpTemplate(options.otp, options.userName, options.purpose),
   };
 
   const info = await transporter.sendMail(message);
 
-  if (!process.env.SMTP_HOST) {
-    console.log(`📧  Preview Email URL: ${nodemailer.getTestMessageUrl(info)}`);
+  if (usingEthereal) {
+    console.log(`📧 Ethereal preview URL: ${nodemailer.getTestMessageUrl(info)}`);
+  } else {
+    console.log(`✅ Email sent to ${options.email}`);
   }
 };
 

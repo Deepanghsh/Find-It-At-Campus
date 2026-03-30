@@ -19,7 +19,11 @@ router.post(
     body('firstName').trim().notEmpty().withMessage('First name is required'),
     body('lastName').trim().notEmpty().withMessage('Last name is required'),
     body('email').isEmail().withMessage('Valid email is required'),
-    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+    body('password')
+      .isLength({ min: 8 }).withMessage('Password must be at least 8 characters')
+      .matches(/[A-Z]/).withMessage('Password must contain at least one uppercase letter')
+      .matches(/[0-9]/).withMessage('Password must contain at least one number')
+      .matches(/[!@#$%^&*(),.?":{}|<>_\-+=/\\\[\]~`]/).withMessage('Password must contain at least one special character (!@#$%^&* etc.)'),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -32,23 +36,37 @@ router.post(
     try {
       const existingUser = await User.findOne({ email });
       if (existingUser) {
-        return res.status(400).json({ message: 'An account with this email already exists' });
+        if (existingUser.isVerified) {
+          return res.status(400).json({ message: 'An account with this email already exists' });
+        } else {
+          // Re-send OTP for unverified user
+          const otp = existingUser.generateOTP();
+          await existingUser.save({ validateBeforeSave: false });
+          
+          await sendEmail({
+            email: existingUser.email,
+            subject: 'Account Verification OTP',
+            otp,
+            userName: existingUser.firstName,
+            purpose: 'Account Registration'
+          });
+          return res.status(200).json({ message: 'Verification OTP sent to email', email: existingUser.email });
+        }
       }
 
-      const user = await User.create({ firstName, lastName, email, password, studentId, phone });
+      const user = await User.create({ firstName, lastName, email, password, studentId, phone, isVerified: false });
+      const otp = user.generateOTP();
+      await user.save({ validateBeforeSave: false });
 
-      res.status(201).json({
-        token: generateToken(user._id),
-        user: {
-          _id: user._id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          studentId: user.studentId,
-          phone: user.phone,
-          role: user.role,
-        },
+      await sendEmail({
+        email: user.email,
+        subject: 'Account Verification OTP',
+        otp,
+        userName: user.firstName,
+        purpose: 'Account Registration'
       });
+
+      res.status(200).json({ message: 'Verification OTP sent to email', email: user.email });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'Server error during registration' });
@@ -73,8 +91,25 @@ router.post(
 
     try {
       const user = await User.findOne({ email }).select('+password');
-      if (!user || !(await user.matchPassword(password))) {
-        return res.status(401).json({ message: 'Invalid email or password' });
+      if (!user) {
+        return res.status(401).json({ message: 'No account found with that email address. Please register first.' });
+      }
+      if (!(await user.matchPassword(password))) {
+        return res.status(401).json({ message: 'Incorrect password. Please try again or use Forgot Password.' });
+      }
+
+      // Auto-verify legacy accounts that were created before the OTP system
+      if (!user.isVerified) {
+        const otpIsExpired = !user.otpExpire || user.otpExpire < Date.now();
+        if (!user.otp || otpIsExpired) {
+          // No pending OTP, or OTP has expired = legacy/stuck account, trust it and mark as verified
+          user.isVerified = true;
+          user.otp = undefined;
+          user.otpExpire = undefined;
+          await user.save({ validateBeforeSave: false });
+        } else {
+          return res.status(403).json({ message: 'Please verify your account. Check your email for the OTP code.', unverified: true });
+        }
       }
 
       res.json({
@@ -96,6 +131,47 @@ router.post(
   }
 );
 
+// ─── POST /api/auth/verify-otp ────────────────────────────────────
+router.post('/verify-otp', async (req, res) => {
+  const { email, otp } = req.body;
+  if (!email || !otp) return res.status(400).json({ message: 'Please provide email and OTP' });
+
+  try {
+    const hashedOtp = crypto.createHash('sha256').update(otp).digest('hex');
+    const user = await User.findOne({
+      email,
+      otp: hashedOtp,
+      otpExpire: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid or expired OTP' });
+    }
+
+    user.isVerified = true;
+    user.otp = undefined;
+    user.otpExpire = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    res.json({
+      token: generateToken(user._id),
+      user: {
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        studentId: user.studentId,
+        phone: user.phone,
+        role: user.role,
+      },
+      message: 'Account verified successfully',
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error during verification' });
+  }
+});
+
 // ─── GET /api/auth/me ─────────────────────────────────────────────
 router.get('/me', protect, async (req, res) => {
   res.json({ user: req.user });
@@ -112,25 +188,23 @@ router.post('/forgotpassword', async (req, res) => {
       return res.status(404).json({ message: 'There is no user with that email' });
     }
 
-    const resetToken = user.getResetPasswordToken();
+    const otp = user.generateOTP();
     await user.save({ validateBeforeSave: false });
-
-    // In production, this should be the frontend URL
-    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
 
     try {
       await sendEmail({
         email: user.email,
-        subject: 'Password Reset Request',
-        resetUrl,
+        subject: 'Password Reset OTP',
+        otp,
         userName: user.firstName,
+        purpose: 'Password Reset',
       });
 
       res.status(200).json({ message: 'Email sent' });
     } catch (err) {
       console.error(err);
-      user.resetPasswordToken = undefined;
-      user.resetPasswordExpire = undefined;
+      user.otp = undefined;
+      user.otpExpire = undefined;
       await user.save({ validateBeforeSave: false });
       return res.status(500).json({ message: 'Email could not be sent' });
     }
@@ -140,30 +214,63 @@ router.post('/forgotpassword', async (req, res) => {
   }
 });
 
-// ─── PUT /api/auth/resetpassword/:resettoken ──────────────────────
-router.put('/resetpassword/:resettoken', async (req, res) => {
-  try {
-    const resetPasswordToken = crypto
-      .createHash('sha256')
-      .update(req.params.resettoken)
-      .digest('hex');
+// ─── POST /api/auth/verify-reset-otp ─────────────────────────────
+// Validates the OTP without resetting the password - step 2 of forgot-password
+router.post('/verify-reset-otp', async (req, res) => {
+  const { email, otp } = req.body;
+  if (!email || !otp) return res.status(400).json({ message: 'Please provide email and OTP' });
 
+  try {
+    const hashedOtp = crypto.createHash('sha256').update(otp).digest('hex');
     const user = await User.findOne({
-      resetPasswordToken,
-      resetPasswordExpire: { $gt: Date.now() },
+      email,
+      otp: hashedOtp,
+      otpExpire: { $gt: Date.now() },
     });
 
     if (!user) {
-      return res.status(400).json({ message: 'Invalid or expired token' });
+      return res.status(400).json({ message: 'Invalid or expired OTP. Please try again.' });
     }
 
-    if (!req.body.password || req.body.password.length < 6) {
+    // OTP is valid — let frontend proceed to password step
+    res.status(200).json({ message: 'OTP verified. You may now reset your password.' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// ─── PUT /api/auth/resetpassword ──────────────────────────────────
+router.put('/resetpassword', async (req, res) => {
+  try {
+    const { email, otp, password } = req.body;
+    if (!email || !otp || !password) {
+      return res.status(400).json({ message: 'Please provide email, OTP, and new password' });
+    }
+
+    const hashedOtp = crypto
+      .createHash('sha256')
+      .update(otp)
+      .digest('hex');
+
+    const user = await User.findOne({
+      email,
+      otp: hashedOtp,
+      otpExpire: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid or expired OTP' });
+    }
+
+    if (password.length < 6) {
       return res.status(400).json({ message: 'Password must be at least 6 characters' });
     }
 
-    user.password = req.body.password;
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
+    user.password = password;
+    user.otp = undefined;
+    user.otpExpire = undefined;
+    user.isVerified = true;
     await user.save();
 
     res.json({
