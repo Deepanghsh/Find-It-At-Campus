@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>My Webcrumbs Plugin</title>
+        <style>
+            @import url(https://fonts.googleapis.com/css2?family=Lato&display=swap);
+            @import url(https://fonts.googleapis.com/css2?family=Open+Sans&display=swap);
+            @import url(https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined);
+            @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css);
+        </style>
+    </head>
+    <body>
+        <div id="webcrumbs">
+            <div class="min-h-screen flex flex-col bg-gray-50">
+                <header class="bg-white shadow-md z-10">
+                    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                        <a href="#" class="flex items-center gap-2">
+                            <span class="text-primary-600 text-2xl font-bold">FindIt@Campus</span>
+                        </a>
+                        <nav class="hidden md:flex items-center gap-6">
+                            <a href="index.html" class="text-gray-700 hover:text-primary-600 transition-colors font-medium"
+                                >Home</a
+                            >
+                            <a href="about.html" class="text-primary-600 hover:text-primary-700 transition-colors font-medium"
+                                >About</a
+                            >
+                            <a href="lost.html" class="text-gray-700 hover:text-primary-600 transition-colors font-medium"
+                                >Lost Items</a
+                            >
+                            <a href="found.html" class="text-gray-700 hover:text-primary-600 transition-colors font-medium"
+                                >Found Items</a
+                            >
+                            <a href="check.html" class="text-gray-700 hover:text-primary-600 transition-colors font-medium"
+                                >Check Status</a
+                            >
+                        </nav>
+                        <div class="flex items-center gap-3">
+                            <a
+                                href="login.html"
+                                class="hidden md:inline-block px-4 py-2 text-primary-600 hover:text-primary-700 font-medium transition-colors"
+                                >Login</a
+                            >
+                            <a
+                                href="signin.html"
+                                class="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors font-medium font-bold border-b-2 border-primary-600"
+                                >Sign Up</a
+                            >
+                            <details class="md:hidden relative">
+                                <summary class="list-none p-2 cursor-pointer">
+                                    <span class="material-symbols-outlined">menu</span>
+                                </summary>
+                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                                    <a href="index.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Home</a>
+                                    <a href="about.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">About</a>
+                                    <a href="lost.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Lost Items</a>
+                                    <a href="found.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Found Items</a>
+                                    <a href="check.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Check Status</a>
+                                    <a href="login.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Login</a>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                </header>
+                <main class="flex-grow container mx-auto px-4 py-12">
+                    <div class="max-w-5xl mx-auto">
+                        <div class="text-center mb-12">
+                            <h1 class="text-4xl font-bold text-gray-800 mb-4">About FindIt@Campus</h1>
+                            <div class="w-24 h-1 bg-primary-500 mx-auto mb-6 rounded-full"></div>
+                            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                                We&#x27;re on a mission to help students reunite with their lost belongings and create a
+                                more connected campus community.
+                            </p>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-12">
+                            <div class="md:flex">
+                                <div class="md:w-1/2 p-8 md:p-12">
+                                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Our Story</h2>
+                                    <p class="text-gray-600 mb-4">
+                                        FindIt@Campus started as a student project at our university when we noticed how
+                                        many items were being lost across campus with no efficient way to report or find
+                                        them.
+                                    </p>
+                                    <p class="text-gray-600 mb-4">
+                                        We created this platform to streamline the process of reporting lost items and
+                                        reuniting them with their owners. Our goal is to reduce the stress and
+                                        inconvenience of losing personal belongings.
+                                    </p>
+                                    <p class="text-gray-600">
+                                        Since our launch, we&#x27;ve helped hundreds of students recover their lost
+                                        items, from laptops and phones to cherished personal mementos.
+                                    </p>
+                                </div>
+                                <div class="md:w-1/2 bg-gray-100">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=1740&amp;q=80"
+                                        alt="Students collaborating on campus"
+                                        class="w-full h-full object-cover"
+                                        keywords="campus, collaboration, university life, students working together"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-16">
+                            <h2 class="text-3xl font-bold text-gray-800 text-center mb-12">Our Mission</h2>
+                            <div class="grid md:grid-cols-3 gap-8">
+                                <div
+                                    class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300"
+                                >
+                                    <div
+                                        class="w-14 h-14 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mb-4 mx-auto"
+                                    >
+                                        <span class="material-symbols-outlined text-3xl">connect_without_contact</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-gray-800 text-center mb-3">Connect</h3>
+                                    <p class="text-gray-600 text-center">
+                                        Build a stronger campus community by connecting those who have lost items with
+                                        those who have found them.
+                                    </p>
+                                </div>
+                                <div
+                                    class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300"
+                                >
+                                    <div
+                                        class="w-14 h-14 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mb-4 mx-auto"
+                                    >
+                                        <span class="material-symbols-outlined text-3xl">find_replace</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-gray-800 text-center mb-3">Recover</h3>
+                                    <p class="text-gray-600 text-center">
+                                        Create an efficient system to maximize the chances of recovering lost items
+                                        quickly and safely.
+                                    </p>
+                                </div>
+                                <div
+                                    class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow transform hover:-translate-y-1 duration-300"
+                                >
+                                    <div
+                                        class="w-14 h-14 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mb-4 mx-auto"
+                                    >
+                                        <span class="material-symbols-outlined text-3xl">support_agent</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-gray-800 text-center mb-3">Support</h3>
+                                    <p class="text-gray-600 text-center">
+                                        Provide peace of mind and assistance to students during the stressful experience
+                                        of losing something important.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-16">
+                            <h2 class="text-3xl font-bold text-gray-800 text-center mb-12">Meet Our Team</h2>
+                            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                                <div
+                                    class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow group"
+                                >
+                                    <div class="h-48 bg-gray-200 relative overflow-hidden">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1584999734482-0361aecad844?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=1160&amp;q=80"
+                                            alt="Chirag Simepurushkar"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                            keywords="team member, professional, university student"
+                                        />
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+                                        >
+                                            <div class="p-4 w-full">
+                                                <div class="flex justify-center gap-3">
+                                                    <a
+                                                        href="#"
+                                                        class="text-white hover:text-primary-300 transition-colors"
+                                                    >
+                                                        <i class="fa-brands fa-linkedin text-lg"></i>
+                                                    </a>
+                                                    <a
+                                                        href="#"
+                                                        class="text-white hover:text-primary-300 transition-colors"
+                                                    >
+                                                        <i class="fa-brands fa-github text-lg"></i>
+                                                    </a>
+                                                    <a
+                                                        href="#"
+                                                        class="text-white hover:text-primary-300 transition-colors"
+                                                    >
+                                                        <span class="material-symbols-outlined">mail</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 text-center">
+                                        <h3 class="font-bold text-lg text-gray-800">Chirag Simepurushkar</h3>
+                                        <p class="text-primary-600 text-sm mb-2">Co-Founder &amp; Lead Developer</p>
+                                        <p class="text-gray-600 text-sm">
+                                            Passionate about creating technology that solves everyday problems for
+                                            students.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow group"
+                                >
+                                    <div class="h-48 bg-gray-200 relative overflow-hidden">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=1287&amp;q=80"
+                                            alt="Deepanghsh Naik"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                            keywords="team member, professional, university student"
+                                        />
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+                                        >
+                                            <div class="p-4 w-full">
+                                                <div class="flex justify-center gap-3">
+                                                    <a
+                                                        href="#"
+                                                        class="text-white hover:text-primary-300 transition-colors"
+                                                    >
+                                                        <i class="fa-brands fa-linkedin text-lg"></i>
+                                                    </a>
+                                                    <a
+                                                        href="#"
+                                                        class="text-white hover:text-primary-300 transition-colors"
+                                                    >
+                                                        <i class="fa-brands fa-github text-lg"></i>
+                                                    </a>
+                                                    <a
+                                                        href="#"
+                                                        class="text-white hover:text-primary-300 transition-colors"
+                                                    >
+                                                        <span class="material-symbols-outlined">mail</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 text-center">
+                                        <h3 class="font-bold text-lg text-gray-800">Deepanghsh Naik</h3>
+                                        <p class="text-primary-600 text-sm mb-2">Co-Founder &amp; UI/UX Designer</p>
+                                        <p class="text-gray-600 text-sm">
+                                            Focused on creating intuitive user experiences that make reporting lost
+                                            items simple.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow group"
+                                >
+                                    <div class="h-48 bg-gray-200 relative overflow-hidden">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=1160&amp;q=80"
+                                            alt="Austen Gomes"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                            keywords="team member, professional, university student"
+                                        />
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+                                        >
+                                            <div class="p-4 w-full">
+                                                <div class="flex justify-center gap-3">
+                                                    <a
+                                                        href="#"
+                                                        class="text-white hover:text-primary-300 transition-colors"
+                                                    >
+                                                        <i class="fa-brands fa-linkedin text-lg"></i>
+                                                    </a>
+                                                    <a
+                                                        href="#"
+                                                        class="text-white hover:text-primary-300 transition-colors"
+                                                    >
+                                                        <i class="fa-brands fa-github text-lg"></i>
+                                                    </a>
+                                                    <a
+                                                        href="#"
+                                                        class="text-white hover:text-primary-300 transition-colors"
+                                                    >
+                                                        <span class="material-symbols-outlined">mail</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 text-center">
+                                        <h3 class="font-bold text-lg text-gray-800">Austen Gomes</h3>
+                                        <p class="text-primary-600 text-sm mb-2">Backend Developer</p>
+                                        <p class="text-gray-600 text-sm">
+                                            Building robust systems to handle item reporting and matching algorithms.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow group"
+                                >
+                                    <div class="h-48 bg-gray-200 relative overflow-hidden">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=1287&amp;q=80"
+                                            alt="Manjunath Gavda"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                            keywords="team member, professional, university student"
+                                        />
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+                                        >
+                                            <div class="p-4 w-full">
+                                                <div class="flex justify-center gap-3">
+                                                    <a
+                                                        href="#"
+                                                        class="text-white hover:text-primary-300 transition-colors"
+                                                    >
+                                                        <i class="fa-brands fa-linkedin text-lg"></i>
+                                                    </a>
+                                                    <a
+                                                        href="#"
+                                                        class="text-white hover:text-primary-300 transition-colors"
+                                                    >
+                                                        <i class="fa-brands fa-github text-lg"></i>
+                                                    </a>
+                                                    <a
+                                                        href="#"
+                                                        class="text-white hover:text-primary-300 transition-colors"
+                                                    >
+                                                        <span class="material-symbols-outlined">mail</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 text-center">
+                                        <h3 class="font-bold text-lg text-gray-800">Manjunath Gavda</h3>
+                                        <p class="text-primary-600 text-sm mb-2">Community Manager</p>
+                                        <p class="text-gray-600 text-sm">
+                                            Coordinating with campus organizations to expand our reach and help more
+                                            students.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-primary-50 rounded-xl p-8 md:p-12 shadow-md">
+                            <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">Get In Touch</h2>
+                            <div class="grid md:grid-cols-3 gap-8">
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="w-14 h-14 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mb-4"
+                                    >
+                                        <span class="material-symbols-outlined text-2xl">location_on</span>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Visit Us</h3>
+                                    <p class="text-gray-600 text-center">
+                                        Student Union Building, Room 203, University Campus
+                                    </p>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="w-14 h-14 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mb-4"
+                                    >
+                                        <span class="material-symbols-outlined text-2xl">mail</span>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Email Us</h3>
+                                    <p class="text-gray-600 text-center">contact@finditcampus.edu</p>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="w-14 h-14 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center mb-4"
+                                    >
+                                        <span class="material-symbols-outlined text-2xl">call</span>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Call Us</h3>
+                                    <p class="text-gray-600 text-center">(123) 456-7890</p>
+                                </div>
+                            </div>
+                            <div class="mt-10 text-center">
+                                <a
+                                    href="#"
+                                    class="inline-block px-6 py-3 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-150"
+                                >
+                                    Contact Our Team
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="bg-gray-800 text-white py-6 mt-auto">
+                    <div class="container mx-auto px-4 text-center">
+                        <p class="text-gray-400 text-sm">© 2023 FindIt@Campus. All rights reserved.</p>
+                        <div class="flex justify-center space-x-4 mt-4">
+                            <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                                <i class="fa-brands fa-facebook text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                                <i class="fa-brands fa-twitter text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                                <i class="fa-brands fa-instagram text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                content: ["./src/**/*.{html,js}"],
+                theme: {
+                    name: "Bluewave",
+                    fontFamily: {
+                        sans: [
+                            "Open Sans",
+                            "ui-sans-serif",
+                            "system-ui",
+                            "sans-serif",
+                            '"Apple Color Emoji"',
+                            '"Segoe UI Emoji"',
+                            '"Segoe UI Symbol"',
+                            '"Noto Color Emoji"'
+                        ]
+                    },
+                    extend: {
+                        fontFamily: {
+                            title: [
+                                "Lato",
+                                "ui-sans-serif",
+                                "system-ui",
+                                "sans-serif",
+                                '"Apple Color Emoji"',
+                                '"Segoe UI Emoji"',
+                                '"Segoe UI Symbol"',
+                                '"Noto Color Emoji"'
+                            ],
+                            body: [
+                                "Open Sans",
+                                "ui-sans-serif",
+                                "system-ui",
+                                "sans-serif",
+                                '"Apple Color Emoji"',
+                                '"Segoe UI Emoji"',
+                                '"Segoe UI Symbol"',
+                                '"Noto Color Emoji"'
+                            ]
+                        },
+                        colors: {
+                            neutral: {
+                                50: "#f7f7f7",
+                                100: "#eeeeee",
+                                200: "#e0e0e0",
+                                300: "#cacaca",
+                                400: "#b1b1b1",
+                                500: "#999999",
+                                600: "#7f7f7f",
+                                700: "#676767",
+                                800: "#545454",
+                                900: "#464646",
+                                950: "#282828"
+                            },
+                            primary: {
+                                50: "#f3f1ff",
+                                100: "#e9e5ff",
+                                200: "#d5cfff",
+                                300: "#b7a9ff",
+                                400: "#9478ff",
+                                500: "#7341ff",
+                                600: "#631bff",
+                                700: "#611bf8",
+                                800: "#4607d0",
+                                900: "#3c08aa",
+                                950: "#220174",
+                                DEFAULT: "#611bf8"
+                            }
+                        }
+                    },
+                    fontSize: {
+                        xs: ["12px", {lineHeight: "19.200000000000003px"}],
+                        sm: ["14px", {lineHeight: "21px"}],
+                        base: ["16px", {lineHeight: "25.6px"}],
+                        lg: ["18px", {lineHeight: "27px"}],
+                        xl: ["20px", {lineHeight: "28px"}],
+                        "2xl": ["24px", {lineHeight: "31.200000000000003px"}],
+                        "3xl": ["30px", {lineHeight: "36px"}],
+                        "4xl": ["36px", {lineHeight: "41.4px"}],
+                        "5xl": ["48px", {lineHeight: "52.800000000000004px"}],
+                        "6xl": ["60px", {lineHeight: "66px"}],
+                        "7xl": ["72px", {lineHeight: "75.60000000000001px"}],
+                        "8xl": ["96px", {lineHeight: "100.80000000000001px"}],
+                        "9xl": ["128px", {lineHeight: "134.4px"}]
+                    },
+                    borderRadius: {
+                        none: "0px",
+                        sm: "6px",
+                        DEFAULT: "12px",
+                        md: "18px",
+                        lg: "24px",
+                        xl: "36px",
+                        "2xl": "48px",
+                        "3xl": "72px",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        0: "0px",
+                        1: "4px",
+                        2: "8px",
+                        3: "12px",
+                        4: "16px",
+                        5: "20px",
+                        6: "24px",
+                        7: "28px",
+                        8: "32px",
+                        9: "36px",
+                        10: "40px",
+                        11: "44px",
+                        12: "48px",
+                        14: "56px",
+                        16: "64px",
+                        20: "80px",
+                        24: "96px",
+                        28: "112px",
+                        32: "128px",
+                        36: "144px",
+                        40: "160px",
+                        44: "176px",
+                        48: "192px",
+                        52: "208px",
+                        56: "224px",
+                        60: "240px",
+                        64: "256px",
+                        72: "288px",
+                        80: "320px",
+                        96: "384px",
+                        px: "1px",
+                        0.5: "2px",
+                        1.5: "6px",
+                        2.5: "10px",
+                        3.5: "14px"
+                    }
+                },
+                plugins: [],
+                important: "#webcrumbs"
+            }
+        </script>
+    </body>
+</html>
